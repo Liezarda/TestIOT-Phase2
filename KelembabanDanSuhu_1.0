@@ -39,22 +39,11 @@ void setup() {
     return;
   }
   Serial.println("Sukses inisiasi SD card");
-
-  //INISIASI RTC
-  Serial.begin(9600);
-  if (! rtc.begin()) {
-    Serial.println("RTC TIDAK TERBACA");
-    while (1);
-  }
-
-  if (! rtc.isrunning()) {
-    Serial.println("RTC is NOT running!");
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));//update rtc dari waktu komputer
-  }
   
   
 }
 
+// Cek directory isi SD card dari SD card modul
 void printDirectory(File dir, int numTabs){
   while (true) {
     File entry =  dir.openNextFile();
@@ -92,6 +81,8 @@ void loop() {
    
   float kelembaban = DHT.humidity;
   float suhu = DHT.temperature;
+  
+  //WRITE FILE HASIL SENSOR RTC KE SD CARD
   
   DHT.read11(sensor);
   DateTime now = rtc.now();
